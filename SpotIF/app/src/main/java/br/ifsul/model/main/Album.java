@@ -13,10 +13,10 @@ public class Album {
     private int totalTracks;
 
     private String release_date;
-
     private List<Image> images;
-
     private List<Artist> artists;
+
+
 
     public String getId() {
         return id;

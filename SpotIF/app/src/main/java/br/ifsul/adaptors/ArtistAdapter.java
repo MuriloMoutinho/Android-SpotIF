@@ -27,19 +27,23 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
         Artist item = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.track, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.artist, parent, false);
         }
 
-        TextView titulo = convertView.findViewById(R.id.titulo);
-        TextView dataLancamento = convertView.findViewById(R.id.dataLancamento);
-        TextView duracao = convertView.findViewById(R.id.duracao);
-        ImageView imageView = convertView.findViewById(R.id.imagem);
+        TextView name = convertView.findViewById(R.id.name);
+        TextView followers = convertView.findViewById(R.id.totalTracks);
+        TextView popularity = convertView.findViewById(R.id.artists);
+        TextView genres = convertView.findViewById(R.id.releaseDate);
+        ImageView imageView = convertView.findViewById(R.id.image);
 
-        titulo.setText(item.getName());
-        //dataLancamento.setText(String.valueOf(item.));
-        duracao.setText(String.valueOf(item.getPopularity()));
+        name.setText(item.getName());
+        followers.setText(String.valueOf(item.getFollowers()));
+        popularity.setText(String.valueOf(item.getPopularity()));
+        if(item.getGenres() != null){
+            genres.setText(String.join(", ", item.getGenres()));
+        }
 
-        Glide.with(this.getContext()).load(item.getImages().get(0)).into(imageView);
+        Glide.with(this.getContext()).load(item.getImages().get(0).getUrl()).into(imageView);
 
         return convertView;
     }

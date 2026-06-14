@@ -13,8 +13,11 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 
+import java.util.stream.Collectors;
+
 import br.ifsul.R;
 import br.ifsul.model.main.Album;
+import br.ifsul.model.main.Artist;
 
 public class AlbumAdapter extends ArrayAdapter<Album> {
 
@@ -27,19 +30,23 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         Album item = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.track, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.album, parent, false);
         }
 
-        TextView titulo = convertView.findViewById(R.id.titulo);
-        TextView dataLancamento = convertView.findViewById(R.id.dataLancamento);
-        TextView duracao = convertView.findViewById(R.id.duracao);
-        ImageView imageView = convertView.findViewById(R.id.imagem);
+        TextView name = convertView.findViewById(R.id.name);
+        TextView totalTracks = convertView.findViewById(R.id.totalTracks);
+        TextView releaseDate = convertView.findViewById(R.id.releaseDate);
+        TextView artists = convertView.findViewById(R.id.artists);
+        ImageView imageView = convertView.findViewById(R.id.image);
 
-        titulo.setText(item.getName());
-        //dataLancamento.setText(String.valueOf(item.));
-        //duracao.setText(String.valueOf(item.));
+        name.setText(item.getName());
+        totalTracks.setText(String.valueOf(item.getTotalTracks()));
+        releaseDate.setText(String.valueOf(item.getRelease_date()));
 
-        Glide.with(this.getContext()).load(item.getImages().get(0)).into(imageView);
+        String artistsNames = item.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
+        artists.setText(artistsNames);
+
+        Glide.with(this.getContext()).load(item.getImages().get(0).getUrl()).into(imageView);
 
         return convertView;
     }

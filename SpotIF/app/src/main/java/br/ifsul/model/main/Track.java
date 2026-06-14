@@ -16,9 +16,7 @@ public class Track {
     private boolean is_local;
 
     private String preview_url;
-
     private Album album;
-
     private List<Artist> artists;
 
 
@@ -52,6 +50,14 @@ public class Track {
 
     public void setPopularity(int popularity) {
         this.popularity = popularity;
+    }
+
+    public int getDuration_ms() {
+        return duration_ms;
+    }
+
+    public void setDuration_ms(int duration_ms) {
+        this.duration_ms = duration_ms;
     }
 
     public int getTrack_number() {

@@ -17,6 +17,7 @@ public class Artist {
     private List<String> genres;
     private List<Image> images;
 
+
     public String getId() {
         return id;
     }
@@ -63,5 +64,13 @@ public class Artist {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public Followers getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Followers followers) {
+        this.followers = followers;
     }
 }

@@ -7,6 +7,6 @@ import retrofit2.http.Query;
 
 public interface SpotifyApiService {
 
-  @GET("search?type=album%2Cartist%2Cplaylist&")
+  @GET("search?type=album%2Cartist%2Ctrack&")
   Call<SearchResponse> search(@Query("q") String term);
 }

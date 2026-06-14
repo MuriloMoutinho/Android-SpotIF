@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,30 +12,28 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import br.ifsul.adaptors.ListViewClient;
 import br.ifsul.communication.api.SpotifyApiClient;
 import br.ifsul.communication.api.SpotifyApiService;
 import br.ifsul.adaptors.AlbumAdapter;
 import br.ifsul.adaptors.ArtistAdapter;
 import br.ifsul.adaptors.TrackAdapter;
 import br.ifsul.model.SearchResponse;
+import br.ifsul.model.main.Album;
+import br.ifsul.model.main.Artist;
+import br.ifsul.model.main.Track;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btConectar;
-    private TextView txtMsg;
-    private EditText pesquisa;
+    private TextView textMessage;
+    private EditText editSearch;
 
-    private ListView listaMusicas;
-    private TrackAdapter dadosMusicas;
-
-    private ListView listaArtistas;
-    private ArtistAdapter dadosArtistas;
-
-    private ListView listaAlbuns;
-    private AlbumAdapter dadosAlbuns;
+    private ListViewClient<Artist> artistList;
+    private ListViewClient<Album> albumList;
+    private ListViewClient<Track> trackList;
 
     SpotifyApiService spotifyService = SpotifyApiClient.getService();
 
@@ -51,27 +48,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        this.btConectar = findViewById(R.id.btConectar);
-        this.txtMsg = findViewById(R.id.txtMsg);
-        this.pesquisa = findViewById(R.id.pesquisa);
-        this.listaMusicas = findViewById(R.id.listaMusicas);
-        this.listaArtistas = findViewById(R.id.listaArtista);
-        this.listaAlbuns = findViewById(R.id.listaAlbum);
+        Button buttonSearch = findViewById(R.id.buttonSearch);
+        this.textMessage = findViewById(R.id.textMessage);
+        this.editSearch = findViewById(R.id.editSeach);
 
-        this.dadosMusicas = new TrackAdapter(getApplicationContext());
-        this.listaMusicas.setAdapter(dadosMusicas);
+        this.artistList = new ListViewClient<>(findViewById(R.id.artistList), new ArtistAdapter(getApplicationContext()));
+        this.albumList = new ListViewClient<>(findViewById(R.id.albumList), new AlbumAdapter(getApplicationContext()));
+        this.trackList = new ListViewClient<>(findViewById(R.id.trackList), new TrackAdapter(getApplicationContext()));
 
-        this.dadosAlbuns = new AlbumAdapter(getApplicationContext());
-        this.listaAlbuns.setAdapter(dadosAlbuns);
-
-        this.dadosArtistas = new ArtistAdapter(getApplicationContext());
-        this.listaArtistas.setAdapter(dadosArtistas);
-
-        btConectar.setOnClickListener(this::conectar);
+        buttonSearch.setOnClickListener(this::searchSpotify);
     }
 
-    private void conectar(View view) {
-        Call<SearchResponse> searchCall = spotifyService.search(this.pesquisa.getText().toString());
+    private void searchSpotify(View view) {
+        Call<SearchResponse> searchCall = spotifyService.search(this.editSearch.getText().toString());
+        textMessage.setText("Carregando...");
 
         searchCall.enqueue(new Callback<>() {
             @Override
@@ -79,21 +69,22 @@ public class MainActivity extends AppCompatActivity {
                 SearchResponse searchResponse = response.body();
                 if(searchResponse == null) return;
 
-                txtMsg.setText("Pesquisa: " + pesquisa.toString());
+                textMessage.setText("Pesquisa: " + editSearch.getText().toString());
 
-                dadosArtistas.addAll(searchResponse.getArtists().getItems());
-                dadosArtistas.notifyDataSetChanged();
-
-                dadosAlbuns.addAll(searchResponse.getAlbums().getItems());
-                dadosAlbuns.notifyDataSetChanged();
-
-                dadosMusicas.addAll(searchResponse.getTracks().getItems());
-                dadosMusicas.notifyDataSetChanged();
+                if(searchResponse.getArtists() != null) {
+                    artistList.addAllItems(searchResponse.getArtists().getItems());
+                }
+                if(searchResponse.getAlbums() != null) {
+                    albumList.addAllItems(searchResponse.getAlbums().getItems());
+                }
+                if(searchResponse.getTracks() != null) {
+                    trackList.addAllItems(searchResponse.getTracks().getItems());
+                }
             }
 
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-                txtMsg.setText("Ocorreu algum erro: " + t.getMessage());
+                textMessage.setText("Ocorreu algum erro: " + t.getMessage());
             }
         });
     }
