@@ -1,9 +1,9 @@
-package br.ifsul.model.suport;
+package br.ifsul.model.main;
 
 public class Image {
     private String url;
-    private int height;
-    private int width;
+    private Integer height;
+    private Integer width;
 
     public String getUrl() {
         return url;
@@ -13,19 +13,19 @@ public class Image {
         this.url = url;
     }
 
-    public int getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
-    public int getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(Integer width) {
         this.width = width;
     }
 }

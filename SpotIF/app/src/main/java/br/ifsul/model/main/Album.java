@@ -2,20 +2,17 @@ package br.ifsul.model.main;
 
 import java.util.List;
 
-import br.ifsul.model.suport.Image;
-
 public class Album {
 
     private String id;
     private String name;
     private String uri;
 
-    private int totalTracks;
+    private Integer total_tracks;
 
     private String release_date;
     private List<Image> images;
     private List<Artist> artists;
-
 
 
     public String getId() {
@@ -42,6 +39,14 @@ public class Album {
         this.uri = uri;
     }
 
+    public Integer getTotal_tracks() {
+        return total_tracks;
+    }
+
+    public void setTotal_tracks(Integer total_tracks) {
+        this.total_tracks = total_tracks;
+    }
+
     public String getRelease_date() {
         return release_date;
     }
@@ -64,13 +69,5 @@ public class Album {
 
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
-    }
-
-    public int getTotalTracks() {
-        return totalTracks;
-    }
-
-    public void setTotalTracks(int totalTracks) {
-        this.totalTracks = totalTracks;
     }
 }

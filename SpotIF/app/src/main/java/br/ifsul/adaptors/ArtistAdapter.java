@@ -31,18 +31,9 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
         }
 
         TextView name = convertView.findViewById(R.id.name);
-        TextView followers = convertView.findViewById(R.id.totalTracks);
-        TextView popularity = convertView.findViewById(R.id.artists);
-        TextView genres = convertView.findViewById(R.id.releaseDate);
         ImageView imageView = convertView.findViewById(R.id.image);
 
         name.setText(item.getName());
-        followers.setText(String.valueOf(item.getFollowers()));
-        popularity.setText(String.valueOf(item.getPopularity()));
-        if(item.getGenres() != null){
-            genres.setText(String.join(", ", item.getGenres()));
-        }
-
         Glide.with(this.getContext()).load(item.getImages().get(0).getUrl()).into(imageView);
 
         return convertView;

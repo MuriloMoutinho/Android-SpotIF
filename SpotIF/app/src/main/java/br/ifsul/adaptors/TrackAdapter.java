@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import br.ifsul.R;
 import br.ifsul.model.main.Artist;
 import br.ifsul.model.main.Track;
+import br.ifsul.utils.TimeFormatUtils;
 
 public class TrackAdapter extends ArrayAdapter<Track> {
 
@@ -34,16 +35,14 @@ public class TrackAdapter extends ArrayAdapter<Track> {
         }
 
         TextView name = convertView.findViewById(R.id.name);
+        TextView artistName = convertView.findViewById(R.id.artistName);
         TextView albumName = convertView.findViewById(R.id.albumName);
-        TextView popularity = convertView.findViewById(R.id.artists);
-        TextView duration = convertView.findViewById(R.id.releaseDate);
-        TextView artistName = convertView.findViewById(R.id.totalTracks);
+        TextView duration = convertView.findViewById(R.id.duration);
         ImageView imageView = convertView.findViewById(R.id.image);
 
         name.setText(item.getName());
         albumName.setText(item.getAlbum().getName());
-        popularity.setText(String.valueOf(item.getPopularity()));
-        duration.setText(String.valueOf(item.getDuration_ms()));
+        duration.setText("Duração: " + TimeFormatUtils.formatStringTime(item.getDuration_ms()));
 
         String artistsNames = item.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
         artistName.setText(artistsNames);

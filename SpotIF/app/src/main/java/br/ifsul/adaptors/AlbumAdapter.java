@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import br.ifsul.R;
 import br.ifsul.model.main.Album;
 import br.ifsul.model.main.Artist;
+import br.ifsul.utils.DateFormatUtils;
 
 public class AlbumAdapter extends ArrayAdapter<Album> {
 
@@ -36,12 +37,12 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         TextView name = convertView.findViewById(R.id.name);
         TextView totalTracks = convertView.findViewById(R.id.totalTracks);
         TextView releaseDate = convertView.findViewById(R.id.releaseDate);
-        TextView artists = convertView.findViewById(R.id.artists);
+        TextView artists = convertView.findViewById(R.id.artistName);
         ImageView imageView = convertView.findViewById(R.id.image);
 
         name.setText(item.getName());
-        totalTracks.setText(String.valueOf(item.getTotalTracks()));
-        releaseDate.setText(String.valueOf(item.getRelease_date()));
+        totalTracks.setText("Músicas: " + item.getTotal_tracks());
+        releaseDate.setText(DateFormatUtils.formatBrazilDateString(item.getRelease_date()));
 
         String artistsNames = item.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
         artists.setText(artistsNames);
