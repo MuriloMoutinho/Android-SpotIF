@@ -7,55 +7,55 @@
     android:layout_height="match_parent"
     android:background="#121212"
     android:padding="24dp"
-    tools:context=".MainActivity">
+    tools:context=".DetailsActivity">
 
     <ImageView
-        android:id="@+id/imageLogo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="120dp"
+        android:id="@+id/imageDetail"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="48dp"
+        android:elevation="8dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_btn_speak_now"
-        app:tint="#1DB954" />
+        app:srcCompat="@drawable/image_placeholder" />
 
     <TextView
-        android:id="@+id/textBrand"
-        android:layout_width="wrap_content"
+        android:id="@+id/textNameDetail"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="SpotIF"
+        android:layout_marginTop="32dp"
+        android:text="Nome da Música"
         android:textColor="#FFFFFF"
-        android:textSize="48sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/imageDetail" />
 
     <TextView
-        android:id="@+id/textSlogan"
-        android:layout_width="wrap_content"
+        android:id="@+id/textSubtitleDetail"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Música sem limites."
+        android:layout_marginTop="8dp"
+        android:text="Nome do Artista"
         android:textColor="#B3B3B3"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBrand" />
+        app:layout_constraintTop_toBottomOf="@+id/textNameDetail" />
 
     <Button
-        android:id="@+id/buttonStart"
+        android:id="@+id/buttonFavoriteDetail"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#1DB954"
-        android:text="COMEÇAR A OUVIR"
+        android:text="ADICIONAR AOS FAVORITOS"
         android:textColor="#000000"
         android:textStyle="bold"
         app:cornerRadius="28dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textSubtitleDetail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
