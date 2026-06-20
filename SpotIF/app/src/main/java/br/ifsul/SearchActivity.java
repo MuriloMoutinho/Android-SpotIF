@@ -2,7 +2,6 @@ package br.ifsul;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +13,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import br.ifsul.adaptors.AlbumAdapter;
-import br.ifsul.adaptors.ArtistAdapter;
-import br.ifsul.adaptors.ListViewClient;
-import br.ifsul.adaptors.TrackAdapter;
+import br.ifsul.adapters.list.AlbumListAdapter;
+import br.ifsul.adapters.list.ArtistListAdapter;
+import br.ifsul.adapters.list.ListViewClient;
+import br.ifsul.adapters.list.TrackListAdapter;
 import br.ifsul.communication.api.SpotifyApiClient;
 import br.ifsul.communication.api.SpotifyApiService;
 import br.ifsul.model.SearchResponse;
@@ -71,9 +70,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void createSearchLists(){
-        this.artistList = new ListViewClient<>(findViewById(R.id.artistList), new ArtistAdapter(getApplicationContext()));
-        this.albumList = new ListViewClient<>(findViewById(R.id.albumList), new AlbumAdapter(getApplicationContext()));
-        this.trackList = new ListViewClient<>(findViewById(R.id.trackList), new TrackAdapter(getApplicationContext()));
+        this.artistList = new ListViewClient<>(findViewById(R.id.artistList), new ArtistListAdapter(getApplicationContext()));
+        this.albumList = new ListViewClient<>(findViewById(R.id.albumList), new AlbumListAdapter(getApplicationContext()));
+        this.trackList = new ListViewClient<>(findViewById(R.id.trackList), new TrackListAdapter(getApplicationContext()));
     }
 
     private void searchSpotify(View view) {

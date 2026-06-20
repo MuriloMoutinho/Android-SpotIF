@@ -1,7 +1,8 @@
 
-package br.ifsul.adaptors;
+package br.ifsul.adapters.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,16 @@ import com.bumptech.glide.Glide;
 
 import java.util.stream.Collectors;
 
+import br.ifsul.DetailsActivity;
 import br.ifsul.R;
+import br.ifsul.adapters.detail.TrackDetailAdapter;
 import br.ifsul.model.main.Artist;
 import br.ifsul.model.main.Track;
 import br.ifsul.utils.TimeFormatUtils;
 
-public class TrackAdapter extends ArrayAdapter<Track> {
+public class TrackListAdapter extends ArrayAdapter<Track> {
 
-    public TrackAdapter(@NonNull Context context) {
+    public TrackListAdapter(@NonNull Context context) {
         super(context, android.R.layout.simple_list_item_1);
    }
 
@@ -48,6 +51,13 @@ public class TrackAdapter extends ArrayAdapter<Track> {
         artistName.setText(artistsNames);
 
         Glide.with(this.getContext()).load(item.getAlbum().getImages().get(0).getUrl()).into(imageView);
+
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("ITEM_DATA", new TrackDetailAdapter(item).getDetailData());
+            getContext().startActivity(intent);
+        });
 
         return convertView;
     }

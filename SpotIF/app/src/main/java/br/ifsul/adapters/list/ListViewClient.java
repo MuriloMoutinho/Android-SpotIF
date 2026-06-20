@@ -1,4 +1,4 @@
-package br.ifsul.adaptors;
+package br.ifsul.adapters.list;
 
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
