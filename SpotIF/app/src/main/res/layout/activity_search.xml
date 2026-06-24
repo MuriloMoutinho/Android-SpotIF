@@ -45,17 +45,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#282828"
+            android:backgroundTint="#8A1E1E"
             android:text="Ver Meus Favoritos"
             android:textColor="#FFFFFF"
             app:layout_constraintTop_toBottomOf="@+id/editSeach" />
+
+        <ImageView
+            android:id="@+id/imageLogo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_btn_speak_now"
+            app:tint="#1DB954" />
 
         <TextView
             android:id="@+id/textMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Resultados da busca"
+            android:text="Faça sua busca!"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -68,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:visibility="gone"
             android:text="Artistas"
             android:textColor="#1DB954"
             android:textStyle="bold"
@@ -78,6 +90,7 @@
             android:id="@+id/artistList"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:visibility="gone"
             android:layout_marginTop="8dp"
             android:divider="#333333"
             android:dividerHeight="0.5dp"
@@ -88,6 +101,7 @@
             android:id="@+id/labelAlbums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="24dp"
             android:text="Álbuns"
             android:textColor="#1DB954"
@@ -101,6 +115,7 @@
             android:layout_height="200dp"
             android:layout_marginTop="8dp"
             android:divider="#333333"
+            android:visibility="gone"
             android:dividerHeight="0.5dp"
             app:layout_constraintTop_toBottomOf="@+id/labelAlbums" />
 
@@ -110,6 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Músicas"
+            android:visibility="gone"
             android:textColor="#1DB954"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,6 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             android:divider="#333333"
             android:dividerHeight="0.5dp"
             app:layout_constraintTop_toBottomOf="@+id/labelTracks" />

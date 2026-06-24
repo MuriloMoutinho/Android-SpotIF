@@ -1,10 +1,12 @@
 package br.ifsul;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +21,7 @@ import br.ifsul.adapters.list.ListViewClient;
 import br.ifsul.adapters.list.TrackListAdapter;
 import br.ifsul.communication.api.SpotifyApiClient;
 import br.ifsul.communication.api.SpotifyApiService;
+import br.ifsul.model.Page;
 import br.ifsul.model.SearchResponse;
 import br.ifsul.model.main.Album;
 import br.ifsul.model.main.Artist;
@@ -36,6 +39,11 @@ public class SearchActivity extends AppCompatActivity {
     private ListViewClient<Album> albumList;
     private ListViewClient<Track> trackList;
 
+    private TextView artistTitle;
+    private TextView albumTitle;
+    private TextView trackTitle;
+    private ImageView imageLogo;
+
     SpotifyApiService spotifyService = SpotifyApiClient.getService();
 
     @Override
@@ -50,7 +58,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         createFavoriteButton();
-        createSearchButton();
+        createButtonsTexts();
         createSearchLists();
     }
 
@@ -62,9 +70,13 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void createSearchButton(){
+    private void createButtonsTexts(){
         this.textMessage = findViewById(R.id.textMessage);
         this.editSearch = findViewById(R.id.editSeach);
+        this.artistTitle = findViewById(R.id.labelArtists);
+        this.albumTitle = findViewById(R.id.labelAlbums);
+        this.trackTitle = findViewById(R.id.labelTracks);
+        this.imageLogo = findViewById(R.id.imageLogo);
         Button buttonSearch = findViewById(R.id.buttonSearch);
         buttonSearch.setOnClickListener(this::searchSpotify);
     }
@@ -79,6 +91,14 @@ public class SearchActivity extends AppCompatActivity {
         Call<SearchResponse> searchCall = spotifyService.search(this.editSearch.getText().toString());
         textMessage.setText("Carregando...");
 
+        artistList.resetAndHide();
+        albumList.resetAndHide();
+        trackList.resetAndHide();
+        artistTitle.setVisibility(View.GONE);
+        albumTitle.setVisibility(View.GONE);
+        trackTitle.setVisibility(View.GONE);
+        imageLogo.setVisibility(View.VISIBLE);
+
         searchCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
@@ -86,21 +106,43 @@ public class SearchActivity extends AppCompatActivity {
                 if(searchResponse == null) return;
 
                 textMessage.setText("Pesquisa: " + editSearch.getText().toString());
+                imageLogo.setVisibility(View.GONE);
 
-                if(searchResponse.getArtists() != null) {
-                    artistList.addAllItems(searchResponse.getArtists().getItems());
+                boolean isArtistsFound = isPageNotEmpty(searchResponse.getArtists());
+                if(isArtistsFound) {
+                    artistList.addAllAndShow(searchResponse.getArtists().getItems());
+                    artistTitle.setVisibility(View.VISIBLE);
                 }
-                if(searchResponse.getAlbums() != null) {
-                    albumList.addAllItems(searchResponse.getAlbums().getItems());
+
+                boolean isAlbumsFound = isPageNotEmpty(searchResponse.getAlbums());
+                if(isAlbumsFound) {
+                    albumList.addAllAndShow(searchResponse.getAlbums().getItems());
+                    albumTitle.setVisibility(View.VISIBLE);
                 }
-                if(searchResponse.getTracks() != null) {
-                    trackList.addAllItems(searchResponse.getTracks().getItems());
+
+                boolean isTracksFound = isPageNotEmpty(searchResponse.getTracks());
+                if(isTracksFound) {
+                    trackList.addAllAndShow(searchResponse.getTracks().getItems());
+                    trackTitle.setVisibility(View.VISIBLE);
                 }
+
+                if(!isArtistsFound && !isAlbumsFound && !isTracksFound){
+                    textMessage.setText("Sem resultados encontrados!");
+                }
+            }
+
+            private boolean isPageNotEmpty(Page page){
+                return page != null && page.getItems() != null && !page.getItems().isEmpty();
             }
 
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-                textMessage.setText("Ocorreu algum erro: " + t.getMessage());
+                new AlertDialog.Builder(SearchActivity.this)
+                        .setTitle("Erro")
+                        .setMessage("Ocorreu um erro na requisição:\n\n" + t.getMessage())
+                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                        .show();
+                textMessage.setText("Ocorreu um erro, tente novamente mais tarde!");
             }
         });
     }
